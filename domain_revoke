@@ -1,0 +1,29 @@
+#!/bin/bash
+# $1 domain
+# $2 email
+zmprov ma $2 zimbraIsDelegatedAdminAccount FALSE
+zmprov ma $2 zimbraAdminConsoleUIComponents cartBlancheUI zimbraAdminConsoleUIComponents domainListView zimbraAdminConsoleUIComponents accountListView zimbraAdminConsoleUIComponents DLListView
+zmprov ma $2 zimbraDomainAdminMaxMailQuota 0
+zmprov revokeRight domain $1 usr $2 +createAccount
+zmprov revokeRight domain $1 usr $2 +createAlias
+zmprov revokeRight domain $1 usr $2 +createCalendarResource
+zmprov revokeRight domain $1 usr $2 +createDistributionList
+zmprov revokeRight domain $1 usr $2 +deleteAlias
+zmprov revokeRight domain $1 usr $2 +listDomain
+zmprov revokeRight domain $1 usr $2 +domainAdminRights
+zmprov revokeRight domain $1 usr $2 +configureQuota
+zmprov revokeRight domain $1 usr $2 set.account.zimbraAccountStatus
+zmprov revokeRight domain $1 usr $2 set.account.sn
+zmprov revokeRight domain $1 usr $2 set.account.displayName
+zmprov revokeRight domain $1 usr $2 set.account.zimbraPasswordMustChange
+zmprov revokeRight domain $1 usr $2 getDomainQuotaUsage
+zmprov revokeRight account $2 usr $2 +deleteAccount
+zmprov revokeRight account $2 usr $2 +getAccountInfo
+zmprov revokeRight account $2 usr $2 +getAccountMembership
+zmprov revokeRight account $2 usr $2 +getMailboxInfo
+zmprov revokeRight account $2 usr $2 +listAccount
+zmprov revokeRight account $2 usr $2 +removeAccountAlias
+zmprov revokeRight account $2 usr $2 +renameAccount
+zmprov revokeRight account $2 usr $2 +setAccountPassword
+zmprov revokeRight account $2 usr $2 +viewAccountAdminUI
+zmprov revokeRight account $2 usr $2 +configureQuota
