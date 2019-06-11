@@ -1,0 +1,24 @@
+#!/bin/bash
+echo "digite o nome do dominio:"
+read dominio;
+for domain  in `echo $dominio`
+ do
+output="/tmp/accountusage"
+mailbox1="meudominio.net"
+touch $output-$domain.txt
+echo "------------------------------------------------------------------------------------------" >> $output-$domain.txt
+echo  -                                          $domain                                       -  >> $output-$domain.txt
+echo "------------------------------------------------------------------------------------------" >> $output-$domain.txt
+#Mailbox
+echo $mailbox1 >> $output-$domain.txt
+/opt/zimbra/bin/zmprov gqu $mailbox1|grep $domain|awk {'print $1" "$3" "$2'}|sort|while read line
+do
+usage=`echo $line|cut -f2 -d " "`
+quota=`echo $line|cut -f3 -d " "`
+user=`echo $line|cut -f1 -d " "`
+status=`/opt/zimbra/bin/zmprov ga $user | grep  ^zimbraAccountStatus | cut -f2 -d " "`
+echo "$user `expr $usage / 1024 / 1024`Mb `expr $quota / 1024 / 1024`Mb ($status account)" >> $output-$domain.txt
+echo "$user `expr $usage / 1024 / 1024`Mb `expr $quota / 1024 / 1024`Mb ($status account)"
+done
+done
+echo "O arquivo está no diretório /tmp, no formato .txt, chamado accountusage-dominio.tld.txt"
